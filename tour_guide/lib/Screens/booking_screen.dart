@@ -1,0 +1,177 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:tour_guide/Screens/tickets_list_screen.dart';
+
+import '../API/flight_booking_output_api.dart';
+import '../model/flight_booking_input_model.dart';
+import '../model/flight_booking_output_model.dart';
+
+class BookingPage extends StatefulWidget {
+  @override
+  _BookingPageState createState() => _BookingPageState();
+}
+
+class _BookingPageState extends State<BookingPage> {
+  late FlightBookingInputModel bookingInput;
+  TextEditingController departureCityController = TextEditingController();
+  TextEditingController arrivalCityController = TextEditingController();
+  //TextEditingController tripTypeController = TextEditingController();
+  TextEditingController numOfAdultsController = TextEditingController();
+  TextEditingController numOfChildrenController = TextEditingController();
+  TextEditingController numOfInfantsController = TextEditingController();
+  TextEditingController departureDateController = TextEditingController();
+  TextEditingController cabinetClassController = TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // bookingInput = FlightBookingInputModel(
+    //     tripType: 'onewaytrip',
+    //     departureCity: 'HBE',
+    //     arrivalCity: 'RUH',
+    //     departureDate: '2022-05-20',
+    //     numberOfAdults: 1,
+    //     numberOfChildren: 0,
+    //     numberOfInfants: 0,
+    //     cabinClass: "Economy");
+    //
+    // fetchBookingOutput();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Booking"),
+      ),
+      body: Container(
+        margin: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.location_city),
+                          hintText: 'From',
+                          labelText: 'Departure City',
+                          border: OutlineInputBorder()),
+                      textInputAction: TextInputAction.done,
+                      controller: departureCityController,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.location_city),
+                          hintText: 'To',
+                          labelText: 'Arrival City',
+                          border: OutlineInputBorder()),
+                      textInputAction: TextInputAction.done,
+                      controller: arrivalCityController,
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+            // Expanded(
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //         labelText: 'Trip Type',
+            //         hintText: "onewaytrip/",
+            //         border: OutlineInputBorder()),
+            //     textInputAction: TextInputAction.done,
+            //     controller: tripTypeController,
+            //   ),
+            // ),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                    labelText: 'Number of adults',
+                    border: OutlineInputBorder()),
+                textInputAction: TextInputAction.done,
+                controller: numOfAdultsController,
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                    labelText: 'Number of children',
+                    border: OutlineInputBorder()),
+                textInputAction: TextInputAction.done,
+                controller: numOfChildrenController,
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                    labelText: 'Number of infants',
+                    border: OutlineInputBorder()),
+                textInputAction: TextInputAction.done,
+                controller: numOfInfantsController,
+              ),
+    ),
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Departure date',
+                        hintText: "year-month-day",
+                        border: OutlineInputBorder()),
+                    textInputAction: TextInputAction.done,
+                    controller: departureDateController,
+                  ),
+                ),
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                    labelText: 'Cabinet Class',
+                    hintText: "Economy/Business/First/Premium_Economy",
+                    border: OutlineInputBorder()),
+                textInputAction: TextInputAction.done,
+                controller: cabinetClassController,
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () async {
+
+                bookingInput = FlightBookingInputModel(
+                    departureCity: departureCityController.text,
+                    arrivalCity: arrivalCityController.text,
+                    departureDate: departureDateController.text,
+                    numberOfAdults: numOfAdultsController.text,
+                    numberOfChildren: numOfChildrenController.text,
+                    numberOfInfants: numOfInfantsController.text,
+                    cabinClass: cabinetClassController.text);
+
+
+
+                // FlightBookingOutputModel flightBookingOutputModel = await fetchBookingOutput();
+
+                FlightBookingOutputModel flightBookingOutputModel = await FlightBookingOutputAPI.fetchFlightBookingOutput(bookingInput);
+
+                 Navigator.push(context, MaterialPageRoute(builder: (context){
+                   return TicketsListPage(flightBookingOutputModel: flightBookingOutputModel);
+                 }));
+
+
+              },
+              child: Text("Search For Tickets"),
+            )
+
+
+          ],
+        ),
+      ),
+    );
+  }
+  Future<FlightBookingOutputModel> fetchBookingOutput() async{
+    return await FlightBookingOutputAPI.fetchFlightBookingOutput(bookingInput);
+  }
+}

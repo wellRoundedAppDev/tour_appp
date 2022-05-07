@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //b2ra mn firebase mn 2wl hena
 var collected;
 class AncientStream extends StatelessWidget {
+
   final path;
   final ontap;
   late String name;
@@ -17,9 +18,10 @@ class AncientStream extends StatelessWidget {
   late String details;
   late GeoPoint location;
 
-  AncientStream({required this.path,this.ontap});
+  AncientStream({required this.path, this.ontap});
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder<QuerySnapshot>(
       stream: fireStore.collection(path).snapshots(),
       builder: (context, snapshot) {
@@ -64,6 +66,7 @@ class AncientStream extends StatelessWidget {
         );
       }
     );
+
   }
 }
 

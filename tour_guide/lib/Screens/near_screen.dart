@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tour_guide/components/ancient_stream.dart';
 import 'package:tour_guide/components/constants.dart';
 import 'package:tour_guide/components/info_box.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

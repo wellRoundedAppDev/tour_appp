@@ -23,16 +23,25 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreen extends State<MapScreen> {
+
   @override
   void initState() {
+    // latitude = widget.latitude;
+    // longitude = widget.longitude;
+     _myLocation = CameraPosition(
+      target: LatLng(widget.latitude, widget.longitude),
+      bearing: 192.0,
+      tilt: 59.440717697143555,
+      zoom: 16,
+    );
     searchNearby();
     _setCircles(LatLng(widget.latitude, widget.longitude));
-    latitude = widget.latitude;
-    longitude = widget.longitude;
+
   }
 
-   static double latitude = 00.00;
-   static double longitude = 00.00;
+  // static double latitude = 00.00;
+  // static double longitude = 00.00;
+  late  CameraPosition _myLocation;
   List<Marker> markers = <Marker>[];
   Set<Circle> _circles = HashSet<Circle>();
   int _circleIdCounter = 1;
@@ -44,12 +53,6 @@ class _MapScreen extends State<MapScreen> {
 
   Completer<GoogleMapController> _controller = Completer();
 
-  static final CameraPosition _myLocation = CameraPosition(
-    target: LatLng(latitude, longitude),
-    bearing: 192.0,
-    tilt: 59.440717697143555,
-    zoom: 16,
-  );
 
   void _setCircles(LatLng point) {
     final String circleIdVal = 'circle_id_$_circleIdCounter';
@@ -104,7 +107,7 @@ class _MapScreen extends State<MapScreen> {
 
 
   @override
-  Widget build(BuildContext contet) {
+  Widget build(BuildContext context) {
     return  Scaffold(
       body: SafeArea(
         child: Stack(

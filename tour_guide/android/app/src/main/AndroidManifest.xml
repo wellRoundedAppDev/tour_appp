@@ -36,8 +36,9 @@
         android:usesCleartextTraffic="true"
        >
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyCQGBbmGBCTdR9tBTQ7KSqjCGb3CmXsj1w"/>
-        <activity
+           android:value="AIzaSyCXKvaEoZ3IPetgGzz8bMGF_4H8FAJ129k"/>
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -59,6 +60,7 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

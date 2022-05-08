@@ -3,16 +3,17 @@ import 'package:tour_guide/nearby_places/components/place_result.dart';
 
 class Api{
 
-  Future<PlaceResult> getApi(double latitude,double longitude) async {
-    final API_KEY = "AIzaSyCQGBbmGBCTdR9tBTQ7KSqjCGb3CmXsj1w";
-    final RADIUS = 100;
+  Future<PlaceResult> getApi(double latitude,double longitude,String serviceType) async {
+    final API_KEY = "AIzaSyCXKvaEoZ3IPetgGzz8bMGF_4H8FAJ129k";
+    final RADIUS = 10000;
     final baseUrl =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 
     String url =
-        '$baseUrl?key=$API_KEY&location=$latitude,$longitude&radius=$RADIUS';
+        '$baseUrl?key=$API_KEY&location=$latitude,$longitude&radius=$RADIUS&type=$serviceType';
     print(url);
     final response = await http.get(Uri.parse(url));
+
 
     if (response.statusCode == 200) {
       return placeResultFromJson(response.body);

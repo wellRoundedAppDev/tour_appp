@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
+import 'package:tour_guide/constants/maps_api_key_constant.dart';
 import 'package:tour_guide/nearby_places/components/place_result.dart';
 
 class Api{
 
   Future<PlaceResult> getApi(double latitude,double longitude,String serviceType) async {
-    final API_KEY = "AIzaSyCXKvaEoZ3IPetgGzz8bMGF_4H8FAJ129k";
+    final API_KEY = MapsApiKeyConstants.GOOGLEMAPSAPIKEY;
     final RADIUS = 10000;
     final baseUrl =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json";

@@ -67,7 +67,7 @@ class Result {
     openingHours: json["opening_hours"] == null ? null : OpeningHours.fromJson(json["opening_hours"]),
     placeId: json["place_id"],
     priceLevel: json["price_level"] == null ? null : json["price_level"],
-    rating: json["rating"].toDouble(),
+    rating: json["rating"]?.toDouble(),
     reference: json["reference"],
     userRatingsTotal: json["user_ratings_total"],
     vicinity: json["vicinity"],

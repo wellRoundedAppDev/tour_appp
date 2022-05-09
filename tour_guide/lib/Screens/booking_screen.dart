@@ -15,13 +15,21 @@ class _BookingPageState extends State<BookingPage> {
   late FlightBookingInputModel bookingInput;
   TextEditingController departureCityController = TextEditingController();
   TextEditingController arrivalCityController = TextEditingController();
-  //TextEditingController tripTypeController = TextEditingController();
   TextEditingController numOfAdultsController = TextEditingController();
   TextEditingController numOfChildrenController = TextEditingController();
   TextEditingController numOfInfantsController = TextEditingController();
   TextEditingController departureDateController = TextEditingController();
-  TextEditingController cabinetClassController = TextEditingController();
 
+  List<String> cabinetClassOptions = [
+    'Economy',
+    'Business',
+    'First',
+    'Premium_Economy'
+  ];
+  String? cabinetClassSelected = 'Economy';
+
+  DateTime currentDate = DateTime.now();
+  String dateStringFormat = '';
 
   @override
   void initState() {
@@ -38,8 +46,8 @@ class _BookingPageState extends State<BookingPage> {
     //     cabinClass: "Economy");
     //
     // fetchBookingOutput();
-  }
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +84,6 @@ class _BookingPageState extends State<BookingPage> {
                       controller: arrivalCityController,
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -116,62 +123,101 @@ class _BookingPageState extends State<BookingPage> {
                 textInputAction: TextInputAction.done,
                 controller: numOfInfantsController,
               ),
-    ),
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                        labelText: 'Departure date',
-                        hintText: "year-month-day",
-                        border: OutlineInputBorder()),
-                    textInputAction: TextInputAction.done,
-                    controller: departureDateController,
-                  ),
-                ),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                    labelText: 'Cabinet Class',
-                    hintText: "Economy/Business/First/Premium_Economy",
-                    border: OutlineInputBorder()),
-                textInputAction: TextInputAction.done,
-                controller: cabinetClassController,
-              ),
             ),
+            // Expanded(
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //         labelText: 'Departure date',
+            //         hintText: "year-month-day",
+            //         border: OutlineInputBorder()),
+            //     textInputAction: TextInputAction.done,
+            //     controller: departureDateController,
+            //   ),
+            // ),
 
+            Expanded(
+              child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.blue))),
+                  value: cabinetClassSelected,
+                  items: cabinetClassOptions
+                      .map((item) => DropdownMenuItem<String>(
+                          value: item, child: Text(item)))
+                      .toList(),
+                  onChanged: (item) {
+                    setState(() {
+                      cabinetClassSelected = item.toString();
+                    });
+                  }),
+            )
+            // Expanded(
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //         labelText: 'Cabinet Class',
+            //         hintText: "Economy/Business/First/Premium_Economy",
+            //         border: OutlineInputBorder()),
+            //     textInputAction: TextInputAction.done,
+            //     controller: cabinetClassController,
+            //   ),
+            // ),
+
+            ,
             ElevatedButton(
               onPressed: () async {
-
-                bookingInput = FlightBookingInputModel(
-                    departureCity: departureCityController.text,
-                    arrivalCity: arrivalCityController.text,
-                    departureDate: departureDateController.text,
-                    numberOfAdults: numOfAdultsController.text,
-                    numberOfChildren: numOfChildrenController.text,
-                    numberOfInfants: numOfInfantsController.text,
-                    cabinClass: cabinetClassController.text);
-
-
-
-                // FlightBookingOutputModel flightBookingOutputModel = await fetchBookingOutput();
-
-                FlightBookingOutputModel flightBookingOutputModel = await FlightBookingOutputAPI.fetchFlightBookingOutput(bookingInput);
-
-                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                   return TicketsListPage(flightBookingOutputModel: flightBookingOutputModel);
-                 }));
-
-
+                DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: currentDate,
+                    firstDate: currentDate,
+                    lastDate: currentDate.add(Duration(days: 600)));
+                if (newDate == null) {
+                  return;
+                }
+                setState(() {
+                  currentDate = newDate;
+                  dateStringFormat = newDate.year.toString() +
+                      '-' +
+                      newDate.month.toString() +
+                      '-' +
+                      newDate.day.toString();
+                });
               },
-              child: Text("Search For Tickets"),
-            )
+              child: Text('Select Trip Departure Date'),
+            ),
 
+           ElevatedButton(
+                onPressed: () async {
+                  bookingInput = FlightBookingInputModel(
+                      departureCity: departureCityController.text,
+                      arrivalCity: arrivalCityController.text,
+                      departureDate: dateStringFormat,
+                      numberOfAdults: numOfAdultsController.text,
+                      numberOfChildren: numOfChildrenController.text,
+                      numberOfInfants: numOfInfantsController.text,
+                      cabinClass: cabinetClassSelected ?? '');
+
+                  // FlightBookingOutputModel flightBookingOutputModel = await fetchBookingOutput();
+
+                  FlightBookingOutputModel flightBookingOutputModel =
+                      await FlightBookingOutputAPI.fetchFlightBookingOutput(
+                          bookingInput);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return TicketsListPage(
+                        flightBookingOutputModel: flightBookingOutputModel);
+                  }));
+                },
+                child: Text("Search For Tickets"),
+              ),
 
           ],
         ),
       ),
     );
   }
-  Future<FlightBookingOutputModel> fetchBookingOutput() async{
+
+  Future<FlightBookingOutputModel> fetchBookingOutput() async {
     return await FlightBookingOutputAPI.fetchFlightBookingOutput(bookingInput);
   }
 }

@@ -1,4 +1,4 @@
 class BookingApiKeyConstant{
 
-  static final String API_KEY = "626de29a83be31587d34618b";
+  static final String API_KEY = "62793a9d2e394cdc417dd37f";
 }

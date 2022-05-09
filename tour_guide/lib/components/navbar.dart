@@ -59,7 +59,7 @@ class NavBar extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: Image.asset('images/booking.png',width: 30,height: 30,),
             title: Text('Booking'),
             onTap: () =>Navigator.push(context, MaterialPageRoute(builder: (context){
               return BookingPage();

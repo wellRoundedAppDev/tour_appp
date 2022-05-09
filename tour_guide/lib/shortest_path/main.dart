@@ -50,6 +50,7 @@ class _MapViewState extends State<MapView> {
   String _destinationAddress = '';
   String? _placeDistance;
 
+
   Set<Marker> markers = {};
 
   late PolylinePoints polylinePoints;
@@ -57,6 +58,7 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   Widget _textField({
     required TextEditingController controller,
@@ -323,6 +325,9 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     _getCurrentLocation();
+    _destinationAddress = widget.landAddress;
+    _startAddress = widget.myAdress;
+
   }
 
   @override

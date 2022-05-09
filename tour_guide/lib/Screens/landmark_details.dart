@@ -120,9 +120,9 @@ class LandmarkDetails extends StatelessWidget {
                         size: 50,
                       ),
                     ),
-                    onTap: (){
-                      getLandAddress();
-                      getMyAddress();
+                    onTap: () async {
+                      await getLandAddress();
+                      await getMyAddress();
                       print("$mylat - $mylon + $lat - $lon");
                       print("$myAdress");
 
@@ -143,9 +143,9 @@ class LandmarkDetails extends StatelessWidget {
                         size: 50,
                       ),
                     ),
-                    onTap: (){
-                      getLandAddress();
-                      getMyAddress();
+                    onTap: () async {
+                      await getLandAddress();
+                      await getMyAddress();
                       print("$mylat - $mylon + $lat - $lon");
                       print("$myAdress");
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>

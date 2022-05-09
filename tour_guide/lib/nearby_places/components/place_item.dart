@@ -38,61 +38,64 @@ class PlaceItem extends StatelessWidget {
             //   width: 10,
             // ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    child: Text(
-                      result.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              child: SingleChildScrollView(
+
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Text(
+                        result.name,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    child: Text(result.vicinity),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: result.openingHours != null
-                              ? Text(
-                                  result.openingHours.openNow
-                                      ? 'Open'
-                                      : 'Closed',
-                                  style: TextStyle(
-                                      color: result.openingHours.openNow
-                                          ? Colors.green
-                                          : Colors.red),
-                                )
-                              : Text('Unknown'),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 15.0,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Text(result.vicinity),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: result.openingHours != null
+                                ? Text(
+                                    result.openingHours.openNow
+                                        ? 'Open'
+                                        : 'Closed',
+                                    style: TextStyle(
+                                        color: result.openingHours.openNow
+                                            ? Colors.green
+                                            : Colors.red),
+                                  )
+                                : Text('Unknown'),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                  size: 15.0,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 5),
-                            Text(result.rating.toString())
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                              SizedBox(width: 5),
+                              Text(result.rating.toString())
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

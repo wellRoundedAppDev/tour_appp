@@ -5,6 +5,7 @@ import 'package:tour_guide/Screens/tickets_list_screen.dart';
 import '../API/flight_booking_output_api.dart';
 import '../model/flight_booking_input_model.dart';
 import '../model/flight_booking_output_model.dart';
+import 'package:tour_guide/weather_screen/components/location.dart';
 
 class BookingPage extends StatefulWidget {
   @override
@@ -30,7 +31,9 @@ class _BookingPageState extends State<BookingPage> {
 
   DateTime currentDate = DateTime.now();
   String dateStringFormat = '';
-
+  String myAdress = '';
+  String myCity = '';
+  bool isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -46,16 +49,32 @@ class _BookingPageState extends State<BookingPage> {
     //     cabinClass: "Economy");
     //
     // fetchBookingOutput();
+    getMyAddress();
 
   }
 
+  Future<void> getMyAddress() async {
+    isLoading = true;
+    Location location = Location();
+    await location.getLocation();
+    final mylat = location.lat;
+    final mylon = location.long;
+    await location.getAddress(mylat,mylon);
+    myAdress = location.addressLatLng;
+    myCity = myAdress.split(',').elementAt(1).trim().toLowerCase();
+    departureCityController.text = myCity;
+
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Booking"),
       ),
-      body: Container(
+      body: isLoading?Center(child: CircularProgressIndicator(),):Container(
         margin: EdgeInsets.all(20),
         child: Column(
           children: [
@@ -70,7 +89,8 @@ class _BookingPageState extends State<BookingPage> {
                           labelText: 'Departure City',
                           border: OutlineInputBorder()),
                       textInputAction: TextInputAction.done,
-                      controller: departureCityController,
+                      controller: departureCityController
+
                     ),
                   ),
                   Expanded(

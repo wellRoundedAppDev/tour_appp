@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour_guide/constants/maps_api_key_constant.dart';
 import 'package:tour_guide/shortest_path/secrets.dart'; // Stores the Google Maps API Key
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -316,7 +317,7 @@ class _MapViewState extends State<MapView> {
       polylineId: id,
       color: Colors.red,
       points: polylineCoordinates,
-      width: 3,
+      width: 5,
     );
     polylines[id] = polyline;
   }

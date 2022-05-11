@@ -29,6 +29,7 @@ dependencies:
   geocoding: ^2.0.4
   geocode: 1.0.1
   google_maps_flutter: ^2.1.4
+  country_state_city_picker: ^1.2.8
   google_map_polyline_new: ^0.3.0+2
   flutter_polyline_points: ^1.0.0
   translator: ^0.1.7

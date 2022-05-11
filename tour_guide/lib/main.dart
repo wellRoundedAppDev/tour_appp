@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:tour_guide/country_picker.dart';
 import 'package:tour_guide/weather_screen/screens/location_screen.dart';
 import 'package:tour_guide/weather_screen/components/weather.dart';
 import 'Screens/home_screen.dart';

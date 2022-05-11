@@ -69,7 +69,7 @@ class _TicketsListPageState extends State<TicketsListPage> {
                       "Arrival Date Time:\n${ticketItem.arrivalDateTime}",
                     ),
                     Text("Stop Overs Count:\n${ticketItem.stopOversCount.toString()}"),
-                    Text("Price:\n${ticketItem.price.toString()}"),
+                    Text("Price:\n${ticketItem.price.toString()} USD"),
                   ],
                 ))),
       ),

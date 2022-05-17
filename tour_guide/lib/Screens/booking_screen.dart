@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour_guide/Screens/tickets_list_screen.dart';
 import 'package:tour_guide/translate_screen/pages/home/home_page.dart';
 
@@ -80,11 +81,8 @@ class BookingPageState extends State<BookingPage> {
       appBar: AppBar(
         title: Text("Booking"),
       ),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Container(
+      body:
+          Container(
               margin: EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -250,6 +248,9 @@ class BookingPageState extends State<BookingPage> {
                   ElevatedButton(
                     onPressed: () async {
 
+                      setState(() {
+                        isLoading = true;
+                      });
 
                       bookingInput = FlightBookingInputModel(
                           departureCity: departureCity.toLowerCase().trim(),
@@ -262,9 +263,17 @@ class BookingPageState extends State<BookingPage> {
 
                       // FlightBookingOutputModel flightBookingOutputModel = await fetchBookingOutput();
 
-                      FlightBookingOutputModel flightBookingOutputModel =
+                      FlightBookingOutputModel? flightBookingOutputModel =
                           await FlightBookingOutputAPI.fetchFlightBookingOutput(
                               bookingInput);
+
+                      if(flightBookingOutputModel?.legs.length == 0 || flightBookingOutputModel == null){
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Fluttertoast.showToast(msg: "Tickets not found",toastLength: Toast.LENGTH_LONG);
+                        return;
+                      }
 
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
@@ -273,7 +282,14 @@ class BookingPageState extends State<BookingPage> {
                       }));
 
                     },
-                    child: Text("Search For Tickets"),
+                    child: isLoading?Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(color: Colors.white,),
+                        SizedBox(width: 30,),
+                        Text("Loading Tickets...")
+                      ],
+                    ):Text("Search For Tickets"),
                   ),
                 ],
               ),

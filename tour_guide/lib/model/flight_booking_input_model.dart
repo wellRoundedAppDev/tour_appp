@@ -1,15 +1,15 @@
 class FlightBookingInputModel{
 
-  final String tripType;
-  final String departureCity;
-  final String arrivalCity;
-  final String departureDate;
-  final String numberOfAdults;
-  final String numberOfChildren;
-  final String numberOfInfants;
-  final String cabinClass;
+   String tripType = '';
+   String departureCity = '';
+   String arrivalCity = '';
+   String departureDate = '';
+   String numberOfAdults = '';
+   String numberOfChildren = '';
+   String numberOfInfants = '';
+   String cabinClass = '';
 
-  const FlightBookingInputModel({
+  FlightBookingInputModel({
     this.tripType = 'onewaytrip',
     required this.departureCity,
     required this.arrivalCity,
@@ -20,5 +20,13 @@ class FlightBookingInputModel{
     required this.cabinClass,
   });
 
+  bool isFlightBookingModelHasEmptyField(){
+
+    if(departureCity.isEmpty || arrivalCity.isEmpty || departureDate.isEmpty || numberOfAdults.isEmpty || numberOfChildren.isEmpty || numberOfInfants.isEmpty || cabinClass.isEmpty){
+      return true;
+    }
+
+    return false;
+  }
 }
 

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class IATAAPI{
 
-  static Future<IATAModel> fetchIATA(String city) async{
+  static Future fetchIATA(String city) async{
 
   final String apiKey = BookingApiKeyConstant.API_KEY;
 
@@ -19,7 +19,7 @@ class IATAAPI{
   } else {
   // If the server did not return a 200 OK response,
   // then throw an exception.
-  throw Exception('Failed to load ');
+    return null;
   }
 
   }

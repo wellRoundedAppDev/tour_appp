@@ -25,6 +25,9 @@ class FlightBookingOutputAPI{
     // print(departureCityIATAModel);
     // print(arrivalCityIATAModel);
 
+    if(arrivalCityIATAModel == null || departureCityIATAModel == null){
+      return null;
+    }
     final String departureCityIATAFirstCode = departureCityIATAModel.data[0]['iata'];
     final String arrivalCityIATAFirstCode = arrivalCityIATAModel.data[0]['iata'];
 

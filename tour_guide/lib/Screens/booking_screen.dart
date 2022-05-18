@@ -248,10 +248,6 @@ class BookingPageState extends State<BookingPage> {
                   ElevatedButton(
                     onPressed: () async {
 
-                      setState(() {
-                        isLoading = true;
-                      });
-
                       bookingInput = FlightBookingInputModel(
                           departureCity: departureCity.toLowerCase().trim(),
                           arrivalCity: arrivalCity.toLowerCase().trim(),
@@ -261,7 +257,15 @@ class BookingPageState extends State<BookingPage> {
                           numberOfInfants: numOfInfantsController.text,
                           cabinClass: cabinetClassSelected ?? '');
 
+                      if(bookingInput.isFlightBookingModelHasEmptyField()){
+
+                        Fluttertoast.showToast(msg: "Please fill all fields",toastLength: Toast.LENGTH_LONG);
+                        return;
+                      }
                       // FlightBookingOutputModel flightBookingOutputModel = await fetchBookingOutput();
+                      setState(() {
+                        isLoading = true;
+                      });
 
                       FlightBookingOutputModel? flightBookingOutputModel =
                           await FlightBookingOutputAPI.fetchFlightBookingOutput(
@@ -270,18 +274,24 @@ class BookingPageState extends State<BookingPage> {
                       if(flightBookingOutputModel?.legs.length == 0 || flightBookingOutputModel == null){
                         setState(() {
                           isLoading = false;
-                        });
+                        }
+                        );
                         Fluttertoast.showToast(msg: "Tickets not found",toastLength: Toast.LENGTH_LONG);
                         return;
                       }
+
+                      setState(() {
+                        isLoading = false;
+                      }
+                      );
 
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return TicketsListPage(
                             flightBookingOutputModel: flightBookingOutputModel);
                       }));
-
                     },
+
                     child: isLoading?Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
